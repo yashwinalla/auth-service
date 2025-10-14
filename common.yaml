@@ -1,0 +1,19 @@
+Response:
+  type: object
+  required:
+    - status
+    - data
+    - message
+    - error
+  properties:
+    status:
+      type: integer
+    code:
+      type: integer
+    data: {}
+    error:
+      type: boolean
+    message:
+      type: string
+    totalCount:
+      type: integer

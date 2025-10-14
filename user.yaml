@@ -1,0 +1,197 @@
+/service/api/auth/v1/sign-up:
+  post:
+    operationId: SignUp
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/user.yaml#/SignUpRequest"
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+                  type: object
+/service/api/auth/v1/social-sign-up:
+  post:
+    operationId: SocialSignUp
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/user.yaml#/SocialSignUpRequest"
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+                  type: object
+/service/api/auth/v1/forgot-password:
+  post:
+    operationId: ForgotPassword
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/user.yaml#/ForgotPasswordRequest"
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+                  type: object
+/service/api/auth/v1/login-logs:
+  post:
+    operationId: LogUserLogin
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/user.yaml#/LoginLogsRequest"
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+                  type: object
+/service/api/auth/v1/account-lock-status:
+  get:
+    operationId: CheckAccountLockStatus
+    parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+                - properties:
+                    data:
+                      $ref: "../components/user.yaml#/AccountLockStatusResponse"
+                  type: object
+/service/api/auth/v1/unlock-account:
+  put:
+    operationId: UnlockAccount
+    parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+/service/api/auth/v1/resend-password-reset-link:
+  post:
+    operationId: ResendPasswordResetLink
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/user.yaml#/ResendPasswordResetLinkRequest"
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+/service/api/auth/v1/validate-password-reset-token:
+  get:
+    operationId: ValidatePasswordResetToken
+    parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The password reset token to validate
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+      "400":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+/service/api/auth/v1/reset-password-submit:
+  put:
+    operationId: ResetPasswordSubmit
+    parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The password reset token
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+/service/api/auth/v1/facebook/delete-user-data:
+  post:
+    operationId: DeleteFacebookUserData
+    requestBody:
+        content:
+          application/x-www-form-urlencoded:
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+                - properties:
+                    data:
+                      $ref: "../components/user.yaml#/DeleteFacebookUserDataResponse"
+                  type: object
+/service/api/auth/v1/facebook/user-data-deletion-status:
+  get:
+    operationId: GetFacebookUserDataDeletionStatus
+    parameters:
+      - name: userId
+        in: query
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/common.yaml#/Response"
+                - properties:
+                    data:
+                      $ref: "../components/user.yaml#/FacebookUserDataDeletionStatusResponse"
+                  type: object
