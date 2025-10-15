@@ -1,0 +1,304 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Hivemindd Auth API
+  description: API for managing auth in the Hivemindd system
+paths:
+  /service/api/auth/v1/sign-up:
+    post:
+      operationId: SignUp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+                    type: object
+  /service/api/auth/v1/social-sign-up:
+    post:
+      operationId: SocialSignUp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialSignUpRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+                    type: object
+  /service/api/auth/v1/forgot-password:
+    post:
+      operationId: ForgotPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+                    type: object
+  /service/api/auth/v1/login-logs:
+    post:
+      operationId: LogUserLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginLogsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+                    type: object
+  /service/api/auth/v1/account-lock-status:
+    get:
+      operationId: CheckAccountLockStatus
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/AccountLockStatusResponse'
+                    type: object
+  /service/api/auth/v1/unlock-account:
+    put:
+      operationId: UnlockAccount
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+  /service/api/auth/v1/resend-password-reset-link:
+    post:
+      operationId: ResendPasswordResetLink
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendPasswordResetLinkRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+  /service/api/auth/v1/validate-password-reset-token:
+    get:
+      operationId: ValidatePasswordResetToken
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The password reset token to validate
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+        '400':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+  /service/api/auth/v1/reset-password-submit:
+    put:
+      operationId: ResetPasswordSubmit
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The password reset token
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+  /service/api/auth/v1/facebook/delete-user-data:
+    post:
+      operationId: DeleteFacebookUserData
+      requestBody:
+        content:
+          application/x-www-form-urlencoded: null
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/DeleteFacebookUserDataResponse'
+                    type: object
+  /service/api/auth/v1/facebook/user-data-deletion-status:
+    get:
+      operationId: GetFacebookUserDataDeletionStatus
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/FacebookUserDataDeletionStatusResponse'
+                    type: object
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Response:
+      type: object
+      required:
+        - status
+        - data
+        - message
+        - error
+      properties:
+        status:
+          type: integer
+        code:
+          type: integer
+        data: {}
+        error:
+          type: boolean
+        message:
+          type: string
+        totalCount:
+          type: integer
+    SignUpRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        tnc:
+          type: boolean
+      required:
+        - email
+        - tnc
+    SocialSignUpRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        firebaseUserID:
+          type: string
+        tnc:
+          type: boolean
+      required:
+        - email
+        - firebaseUserID
+        - tnc
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+      required:
+        - email
+    LoginLogsRequest:
+      type: object
+      properties:
+        email:
+          type: string
+      required:
+        - email
+    AccountLockStatusResponse:
+      type: object
+      properties:
+        isAccountLocked:
+          type: boolean
+        loginFailureCount:
+          type: integer
+          format: int64
+      required:
+        - isAccountLocked
+        - loginFailureCount
+    ResendPasswordResetLinkRequest:
+      type: object
+      properties:
+        email:
+          type: string
+      required:
+        - email
+    DeleteFacebookUserDataResponse:
+      type: object
+      properties:
+        url:
+          type: string
+      required:
+        - url
+    FacebookUserDataDeletionStatusResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+      required:
+        - userId
+        - status
+        - message

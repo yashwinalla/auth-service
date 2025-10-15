@@ -1,0 +1,33 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Hivemindd Auth API
+  description: API for managing auth in the Hivemindd system
+paths:
+  $ref: "./swagger/paths/index.yaml"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Response:
+      $ref: "./swagger/components/common.yaml#/Response"
+    SignUpRequest:
+      $ref: "./swagger/components/user.yaml#/SignUpRequest"
+    SocialSignUpRequest:
+      $ref: "./swagger/components/user.yaml#/SocialSignUpRequest"
+    ForgotPasswordRequest:
+      $ref: "./swagger/components/user.yaml#/ForgotPasswordRequest"
+    LoginLogsRequest:
+      $ref: "./swagger/components/user.yaml#/LoginLogsRequest"
+    AccountLockStatusResponse:
+      $ref: "./swagger/components/user.yaml#/AccountLockStatusResponse"      
+    ResendPasswordResetLinkRequest:
+      $ref: "./swagger/components/user.yaml#/ResendPasswordResetLinkRequest"
+    DeleteFacebookUserDataResponse:
+      $ref: "./swagger/components/user.yaml#/DeleteFacebookUserDataResponse"
+    FacebookUserDataDeletionStatusResponse:
+      $ref: "./swagger/components/user.yaml#/FacebookUserDataDeletionStatusResponse"
